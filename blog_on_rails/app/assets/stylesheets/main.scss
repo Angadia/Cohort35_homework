@@ -5,7 +5,7 @@
 }
 
 .main {
-  padding: 1em 0.5em;
+  padding: 1em 0.75em;
 }
 
 .card-deck {
@@ -18,7 +18,7 @@
   width: 100%;
 }
 
-.card-title {
+.posts .card-title {
   font-weight: 500;
   width: 100%;
   white-space: nowrap;
@@ -26,11 +26,16 @@
   text-overflow: ellipsis;
 }
 
-.card-text {
+.posts .card-text {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+// New/Edit Post form
+input[type=submit] {
+  margin-top: 1em;
 }
 
 // Extra small devices (portrait phones, less than 576px)
