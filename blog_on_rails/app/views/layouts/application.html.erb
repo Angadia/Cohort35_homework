@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BlogOnRails</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_pack_tag 'application' %>
+  </head>
+
+  <body>
+
+    <%= tag.header class: %w( header ) do %>
+      <%= tag.nav class: %w( navbar navbar-expand bg-light ) do %>
+        <%= link_to "Blog On Rails", root_path, class: "navbar-brand" %>
+        <%= content_tag :ul, class: "navbar-nav" do %>
+          <%= content_tag :li, class: "nav-item" do %>
+            <%= link_to "Home", root_path, class: "nav-link" %>
+          <% end %>
+          <%= content_tag :li, class: "nav-item" do %>
+            <%= link_to "New Post", new_post_path, class: "nav-link" %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    
+    <%= tag.main class: %w( main container.fluid ) do %>
+      <%= yield %>
+    <% end %>
+
+  </body>
+</html>
