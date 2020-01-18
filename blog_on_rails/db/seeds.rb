@@ -6,14 +6,26 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+PASSWORD = "supersecret"
+
 # First destroy all records from table comments due to FK constraint.
 Comment.destroy_all
 # Then destroy all records from table posts.
 Post.destroy_all
+User.destroy_all
 
 # Reset the primary key sequence to 1.
 ActiveRecord::Base.connection.reset_pk_sequence!(:posts)
 ActiveRecord::Base.connection.reset_pk_sequence!(:comments)
+ActiveRecord::Base.connection.reset_pk_sequence!(:users)
+
+super_user = User.create( 
+  first_name: "Jon", 
+  last_name: "Snow", 
+  email: "js@winterfell.gov", 
+  password: PASSWORD
+)
+puts Cowsay.say("Admin login with #{super_user.email} and password of '#{PASSWORD}'", :cow)
 
 # Bulk insert of 50 fake posts.
 Post.insert_all(
@@ -22,7 +34,8 @@ Post.insert_all(
       title: Faker::Hacker.say_something_smart,
       body: Faker::ChuckNorris.fact,
       created_at: Faker::Time.backward(days:365),
-      updated_at: DateTime.now()
+      updated_at: DateTime.now(),
+      user_id: super_user.id
     }
   end
 )
