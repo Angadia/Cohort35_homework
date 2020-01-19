@@ -12,8 +12,10 @@ class UsersController < ApplicationController
 
   def update
     if @user&.update user_params.except(:password, :password_confirmation)
+      flash[:notice] = "User Updated Successfully"
       redirect_to root_path
     else
+      flash.now[:alert] = @user.errors.full_messages.join(', ')
       render :edit
     end
   end
@@ -22,8 +24,10 @@ class UsersController < ApplicationController
     @user = User.new user_params
     if @user.save
       session[:user_id] = @user.id
+      flash[:notice] = "User Created Successfully"
       redirect_to root_path
     else
+      flash.now[:alert] = @user.errors.full_messages.join(', ')
       render :new
     end
   end

@@ -14,8 +14,10 @@ class PostsController < ApplicationController
     @post = Post.new post_params
     @post.user = current_user
     if @post.save
+      flash[:notice] = "Post Created Successfully"
       redirect_to @post
     else
+      flash.now[:alert] = @post.errors.full_messages.join(', ')
       render :new
     end
   end
@@ -30,14 +32,17 @@ class PostsController < ApplicationController
 
   def update
     if @post.update post_params
+      flash[:notice] = "Post Updated Successfully"
       redirect_to @post
     else
+      flash.now[:alert] = @post.errors.full_messages.join(', ')
       render :edit
     end
   end
 
   def destroy
     @post.destroy
+    flash[:notice] = "Post Deleted Successfully"
     redirect_to root_path
   end
 

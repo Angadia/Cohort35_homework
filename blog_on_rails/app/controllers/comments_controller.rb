@@ -7,16 +7,19 @@ class CommentsController < ApplicationController
     @new_comment.user = current_user
     @new_comment.post = @post
     if @new_comment.save
+      flash[:alert] = "Comment Created Succesfully"
       redirect_to @post
     else
       @comments = @post.comments.order(created_at: :desc)
-      render 'posts/show'
+      flash.now[:alert] = @new_comment.errors.full_messages.join(", ").gsub("Body", "Comment")
+      render "posts/show"
     end
   end
 
   def destroy
     @comment = Comment.find params[:id]
     @comment.destroy
+    flash[:alert] = "Comment Deleted Succesfully"
     redirect_to @comment.post
   end
 

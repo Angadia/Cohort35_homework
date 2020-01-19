@@ -4,14 +4,9 @@
             <p class="card-text"><%= @post.body %></p>
             <small><p>Posted <%= time_ago_in_words(@post.updated_at) %> ago</p></small>
             <%= link_to("Edit", edit_post_path(@post.id), class: "btn btn-outline-primary btn-md") %>
-            <%= link_to("Delete", post_path(@post.id), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-outline-primary btn-md") %>
+            <%= link_to("Delete", post_path(@post.id), method: :delete, data: {confirm: "Delete Post?"}, class: "btn btn-outline-primary btn-md") %>
 
             <%= form_with(model: [@post, @new_comment], local: true) do |form| %>
-              <% if @new_comment.errors.present? %>
-                <p class="form-errors">
-                  <%= @new_comment.errors.full_messages.join(", ") %>
-                </p>
-              <% end %>
               <div class="form_group">
                 <h3><%= form.label :comment, for: :body %></h3>
                 <%= form.text_area :body, cols: 50, rows: 3, placeholder: "What's on your mind?", class: "form-control" %>
@@ -26,7 +21,7 @@
                     <p class="card-text"><%= comment.body %></p>
                     <small>Commented <%= time_ago_in_words(comment.created_at) %> ago</small>
                     •
-                    <%= link_to("Delete", post_comment_path(@post, comment), method: :delete, data: { confirm: "Are you sure?" }, class: "card-link") %>
+                    <%= link_to("Delete", post_comment_path(@post, comment), method: :delete, data: { confirm: "Delete Comment?" }, class: "card-link") %>
                   </div>
                 </div>
               <% end %>

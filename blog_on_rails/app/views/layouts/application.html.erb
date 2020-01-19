@@ -22,7 +22,7 @@
               <%= link_to current_user.full_name, edit_user_path(current_user), class: "nav-link" %>
             <% end %>
             <%= content_tag :li, class: "nav-item" do %>
-              <%= link_to "Logout", session_path, method: :delete, data: {confirm: "are you sure you want to log out?"}, class: "nav-link" %>
+              <%= link_to "Logout", session_path, method: :delete, data: {confirm: "Log Out?"}, class: "nav-link" %>
             <% end %>
           <% else %>
             <%= content_tag :li, class: "nav-item" do %>
