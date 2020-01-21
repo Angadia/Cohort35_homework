@@ -1,10 +1,15 @@
         <div class="post card border-0">
           <div class="card-body">
             <h2 class="card-title"><%= @post.title %></h2>
-            <p class="card-text"><%= @post.body %></p>
-            <small><p>Posted <%= time_ago_in_words(@post.updated_at) %> ago</p></small>
-            <%= link_to("Edit", edit_post_path(@post.id), class: "btn btn-outline-primary btn-md") %>
-            <%= link_to("Delete", post_path(@post.id), method: :delete, data: {confirm: "Delete Post?"}, class: "btn btn-outline-primary btn-md") %>
+            <div class="card-text">
+              <%= @post.body %></p>
+              <small class="text-muted">By <%= @post.user&.full_name || "DELETED" %> | 
+              Posted <%= time_ago_in_words(@post.updated_at) %> ago</small>
+            </div>
+            <% if can? :crud, @post %>
+              <%= link_to("Edit", edit_post_path(@post.id), class: "btn btn-outline-primary btn-md") %>
+              <%= link_to("Delete", post_path(@post.id), method: :delete, data: {confirm: "Delete Post?"}, class: "btn btn-outline-primary btn-md") %>
+            <% end %>
 
             <%= form_with(model: [@post, @new_comment], local: true) do |form| %>
               <div class="form_group">
@@ -18,10 +23,15 @@
               <% @post.comments.each do |comment| %>
                 <div class="card border-0">
                   <div class="card-body">
-                    <p class="card-text"><%= comment.body %></p>
-                    <small>Commented <%= time_ago_in_words(comment.created_at) %> ago</small>
-                    •
-                    <%= link_to("Delete", post_comment_path(@post, comment), method: :delete, data: { confirm: "Delete Comment?" }, class: "card-link") %>
+                    <div class="card-text">
+                      <%= comment.body %><br>
+                        <small class="text-muted">By <%= comment.user&.full_name || "DELETED" %> | 
+                        Commented <%= time_ago_in_words(comment.created_at) %> ago
+                        <% if can? :destroy, comment %>
+                          •
+                          <%= link_to("Delete", post_comment_path(@post, comment), method: :delete, data: { confirm: "Delete Comment?" }, class: "card-link") %>
+                        <% end %></small>
+                    </div>
                   </div>
                 </div>
               <% end %>
