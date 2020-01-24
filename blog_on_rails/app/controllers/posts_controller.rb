@@ -1,8 +1,10 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :find_post, only: [:show, :edit, :update, :destroy]
+  before_action :authorize!, only: [:edit, :update, :destroy]
 
   def index
-    @posts = Post.all.order("updated_at DESC")
+    @posts = Post.all.order(updated_at: :desc)
   end
 
   def new
@@ -10,30 +12,38 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new posts_params
+    @post = Post.new post_params
+    @post.user = current_user
     if @post.save
-      redirect_to root_path
+      flash[:notice] = "Post Created Successfully"
+      redirect_to @post
     else
+      flash.now[:alert] = @post.errors.full_messages.join(', ')
       render :new
     end
   end
 
   def show
+    @new_comment = Comment.new
+    @comments = @post.comments.order(created_at: :desc)
   end
 
   def edit
   end
 
   def update
-    if @post.update posts_params
-      redirect_to post_path(@post.id)
+    if @post.update post_params
+      flash[:notice] = "Post Updated Successfully"
+      redirect_to @post
     else
+      flash.now[:alert] = @post.errors.full_messages.join(', ')
       render :edit
     end
   end
 
   def destroy
     @post.destroy
+    flash[:notice] = "Post Deleted Successfully"
     redirect_to root_path
   end
 
@@ -43,7 +53,13 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
   end
 
-  def posts_params
+  def post_params
     params.require(:post).permit(:title, :body)
+  end
+
+  def authorize!
+    unless can? :crud, @post
+      redirect_to root_path, alert: "Not Authorized"
+    end
   end
 end

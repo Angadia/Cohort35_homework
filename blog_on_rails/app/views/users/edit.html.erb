@@ -1,0 +1,17 @@
+      <h1>Update User</h1>
+      <%= form_with model: @user, local: true do |f| %>
+        <div class="form-group">
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name, value: @user.first_name, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name, value: @user.last_name, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :email %>
+          <%= f.email_field :email, value: @user.email, class: "form-control" %>
+        </div>
+        <%= f.submit class: "btn btn-outline-primary btn-lg" %>
+      <% end %>
+      <%= link_to "Change Password", user_password_path(@user) %>
