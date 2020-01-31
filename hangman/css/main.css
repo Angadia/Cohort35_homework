@@ -1,0 +1,31 @@
+table.alphabets, table.mysteryWord {
+  border-collapse: separate;
+  border-spacing: 0.3em;
+}
+
+table.alphabets td {
+  width: 1.3em;
+  text-align: center;
+  padding: 0.2em;
+  font-size: 1.5em;
+  border: 1px solid grey;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+table.mysteryWord td {
+  width: 1.3em;
+  text-align: center;
+  padding: 0.2em;
+  font-size: 1.5em;
+  border-bottom: 2px solid grey;
+  cursor: none;
+  color: white;
+}
+
+
+.selected {
+  border: none;
+  color: white;
+  background-color: orangered;
+}
