@@ -31,14 +31,14 @@ $(document)
         setTimeout(() => {
           $(alert("Better luck next time..."));
           location.reload();
-        }, 5000);
+        }, 3000);
       }
     };
     
-    function checkTheGuess(jQeCT) {
+    function checkTheGuess(guessChar) {
       let notFound = true;
       for (let index = 0; index < MYSTERY_WORD.length; index++) {
-        if (jQeCT.text() === MYSTERY_WORD[index]) {
+        if (guessChar === MYSTERY_WORD[index]) {
           notFound = false;
           correctGuessCount++;
           $(`table.mysteryWord td:nth-child(${index+1})`).css("color", "black");
@@ -55,7 +55,7 @@ $(document)
         setTimeout(() => {
           $(alert("Congratulations! You Won!"));
           location.reload();
-        }, 5000);
+        }, 3000);
       }
     };
 
@@ -63,7 +63,23 @@ $(document)
       const jQeCT = $(e.currentTarget);
       if (!jQeCT.hasClass('selected')) {
         jQeCT.addClass('selected');
-        checkTheGuess(jQeCT);
+        checkTheGuess(jQeCT.text());
+      }
+    });
+
+    function updateTheAlphabet(guessChar) {
+      const guessCharCode = guessChar.charCodeAt(0);
+      const key = $(`table.alphabets tr:nth-child(${Math.floor((guessCharCode - 65 + 1) / 10)+1}) > td:nth-child(${(guessCharCode - 65 + 1) % 10})`);
+      if (!key.hasClass('selected')) {
+        key.addClass('selected');
+        checkTheGuess(guessChar);
+      }
+    };
+
+    $(document).on('keypress', e => {
+      const keyPressed = e.key.toUpperCase();
+      if (keyPressed >= 'A' && keyPressed <= 'Z') {
+        updateTheAlphabet(keyPressed);
       }
     });
   });
